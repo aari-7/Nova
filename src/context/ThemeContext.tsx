@@ -10,18 +10,21 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-    // Force dark mode
-    const [theme] = useState<Theme>('dark');
+    const [theme, setTheme] = useState<Theme>(() => {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') return saved;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    });
 
     useEffect(() => {
         const root = window.document.documentElement;
-        root.classList.remove('light');
-        root.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-    }, []);
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+        localStorage.setItem('theme', theme);
+    }, [theme]);
 
     const toggleTheme = () => {
-        console.warn('Theme switching is disabled. Dark mode is mandatory.');
+        setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
     };
 
     return (

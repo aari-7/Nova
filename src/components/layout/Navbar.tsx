@@ -62,6 +62,14 @@ export const Navbar = () => {
                         </div>
 
                         <div className="flex items-center space-x-4 border-l border-[var(--border-color)] pl-6">
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-[var(--color-muted)]"
+                                aria-label="Toggle dark mode"
+                            >
+                                {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                            </button>
+
                             <Link
                                 to="/assessment"
                                 className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white px-7 py-3 rounded-xl font-bold text-sm transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/25 flex items-center"
@@ -74,6 +82,12 @@ export const Navbar = () => {
 
                     {/* Mobile menu button */}
                     <div className="flex items-center space-x-2 md:hidden">
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-[var(--color-muted)]"
+                        >
+                            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                        </button>
                         <button
                             onClick={() => setIsOpen(!isOpen)}
                             className="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-[var(--color-foreground)] transition-colors"
