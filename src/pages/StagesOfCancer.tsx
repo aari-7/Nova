@@ -83,13 +83,13 @@ const StagesOfCancer = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
-                                className="relative bg-[var(--color-card)] rounded-[2.5rem] p-8 border border-[var(--border-color)] shadow-sm hover:shadow-xl transition-all group"
+                                className="relative bg-[var(--color-card)] rounded-[2.5rem] p-8 border border-[var(--border-color)] shadow-sm hover:shadow-xl transition-all group flex flex-col h-full"
                             >
                                 <div className={`w-16 h-16 rounded-[1.5rem] bg-${stage.color}-500 flex items-center justify-center text-white shadow-xl shadow-${stage.color}-500/20 mb-8 absolute -top-8 left-8 lg:static lg:-top-0 lg:left-0`}>
                                     <stage.icon className="w-8 h-8" />
                                 </div>
 
-                                <div className="mt-6 lg:mt-0">
+                                <div className="mt-6 lg:mt-0 flex flex-col flex-1">
                                     <div className="flex items-center justify-between mb-2">
                                         <h3 className="text-2xl font-black text-[var(--color-foreground)]">{stage.title}</h3>
                                     </div>
@@ -97,8 +97,10 @@ const StagesOfCancer = () => {
                                     <p className="text-[var(--color-muted)] text-sm font-medium leading-relaxed mb-6">
                                         {stage.description}
                                     </p>
-                                    <div className={`inline-block px-3 py-1 rounded-full bg-${stage.color}-100 dark:bg-${stage.color}-900/30 text-${stage.color}-600 dark:text-${stage.color}-400 text-[10px] font-black uppercase tracking-wider`}>
-                                        {stage.risk}
+                                    <div className="mt-auto pt-4">
+                                        <div className={`inline-block px-3 py-1 rounded-full bg-${stage.color}-100 dark:bg-${stage.color}-900/30 text-${stage.color}-600 dark:text-${stage.color}-400 text-[10px] font-black uppercase tracking-wider`}>
+                                            {stage.risk}
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>
