@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: hsl(221, 83%, 53%);
+  --color-primary-dark: hsl(221, 83%, 43%);
+  --color-secondary: hsl(346, 84%, 61%);
+  --color-accent: hsl(199, 89%, 48%);
+  --color-success: hsl(142, 71%, 45%);
+  --color-warning: hsl(38, 92%, 50%);
+  --color-danger: hsl(0, 84%, 60%);
+
+  --color-background: var(--bg-color);
+  --color-foreground: var(--fg-color);
+  --color-muted: var(--muted-color);
+  --color-card: var(--card-color);
+  --color-border: var(--border-color);
+
+  --font-plus-jakarta: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-inter: "Inter", sans-serif;
+
+  --shadow-premium: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+@layer base {
+  :root {
+    --bg-color: hsl(210, 40%, 98%);
+    --fg-color: hsl(222, 47%, 11%);
+    --muted-color: hsl(215, 25%, 45%);
+    --card-color: hsl(0, 0%, 100%);
+    --border-color: hsl(214, 32%, 91%);
+  }
+
+  .dark {
+    --bg-color: hsl(222, 47%, 4%);
+    --fg-color: hsl(210, 40%, 98%);
+    --muted-color: hsl(215, 20%, 65%);
+    --card-color: hsl(222, 47%, 7%);
+    --border-color: hsl(217, 33%, 17%);
+  }
+
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+    border-color: var(--border-color);
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    font-family: var(--font-inter);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-plus-jakarta);
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+}
+
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .premium-gradient {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+}
