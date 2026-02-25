@@ -84,7 +84,8 @@ const ThankYou = () => {
             });
 
             pdf.addImage(imgData, 'PNG', 0, 0, canvas.width / 2, canvas.height / 2);
-            const fileName = `Nova_Health_Report_${resultProps.data.fullName.replace(/\s+/g, '_')}.pdf`;
+            const rawName = resultProps?.data?.fullName || 'Patient';
+            const fileName = `Nova_Health_Report_${rawName.replace(/\s+/g, '_')}.pdf`;
             pdf.save(fileName);
             console.log("PDF saved successfully as:", fileName);
         } catch (error) {
@@ -95,9 +96,25 @@ const ThankYou = () => {
         }
     };
 
-    if (!resultProps) return null;
+    if (!resultProps) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[var(--color-background)]">
+                <div className="w-10 h-10 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
     const { data, result, date } = resultProps;
-    const RiskIcon = result.riskLevel === 'High' ? AlertTriangle : result.riskLevel === 'Moderate' ? AlertCircle : CheckCircle;
+
+    // Safely parse data points just in case there's old corrupted sessionStorage
+    const fullName = data?.fullName || 'Patient';
+    const riskLevel = result?.riskLevel || 'Low';
+    const score = result?.score || 0;
+    const gender = data?.gender || 'Unspecified';
+    const phone = data?.phone || 'Not Provided';
+    const isAge50Plus = data?.age50Plus ? 'Positive' : 'Nominal';
+    const parsedDate = date ? new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : 'Unknown Date';
+
+    const RiskIcon = riskLevel === 'High' ? AlertTriangle : riskLevel === 'Moderate' ? AlertCircle : CheckCircle;
 
     const getRiskStyles = (level: string) => {
         switch (level) {
@@ -107,7 +124,7 @@ const ThankYou = () => {
         }
     };
 
-    const styles = getRiskStyles(result.riskLevel);
+    const styles = getRiskStyles(riskLevel);
 
     return (
         <div className="min-h-screen bg-[var(--color-background)] pt-32 pb-20 px-4">
@@ -150,13 +167,13 @@ const ThankYou = () => {
                         </div>
                         <div className="text-right">
                             <p className="text-2xl font-black text-[var(--color-foreground)]">Risk Profile Report</p>
-                            <p className="text-sm text-[var(--color-muted)] font-medium">Issued: {new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                            <p className="text-sm text-[var(--color-muted)] font-medium">Issued: {parsedDate}</p>
                         </div>
                     </header>
 
                     <main>
                         <div className="mb-12 px-4 md:px-0">
-                            <h2 className="text-3xl font-black text-[var(--color-foreground)] mb-2">Subject: {data.fullName}</h2>
+                            <h2 className="text-3xl font-black text-[var(--color-foreground)] mb-2">Subject: {fullName}</h2>
                             <p className="text-[var(--color-muted)] font-medium text-lg leading-relaxed">
                                 Comparative analysis based on institutional early-cancer detection benchmarks and biological risk factors.
                             </p>
@@ -171,9 +188,9 @@ const ThankYou = () => {
                                     </div>
                                     <span className={`text-sm font-black uppercase tracking-[0.25em] ${styles.color}`}>Calculated Risk Level</span>
                                 </div>
-                                <h3 className="text-4xl md:text-5xl font-black text-[var(--color-foreground)] mb-4">{result.riskLevel}</h3>
+                                <h3 className="text-4xl md:text-5xl font-black text-[var(--color-foreground)] mb-4">{riskLevel}</h3>
                                 <p className="text-[var(--color-muted)] font-medium leading-relaxed">
-                                    Your profile indicates a {result.riskLevel.toLowerCase()} cumulative score relative to current oncological surveillance matrices.
+                                    Your profile indicates a {riskLevel.toLowerCase()} cumulative score relative to current oncological surveillance matrices.
                                 </p>
                             </div>
                             <div className="md:col-span-4 flex items-center justify-center">
@@ -183,13 +200,13 @@ const ThankYou = () => {
                                         <circle
                                             cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="12" fill="transparent"
                                             strokeDasharray={440}
-                                            strokeDashoffset={440 - (440 * (result.score / 50))}
+                                            strokeDashoffset={440 - (440 * (score / 50))}
                                             className={`${styles.color} transition-all duration-1000`}
                                             strokeLinecap="round"
                                         />
                                     </svg>
                                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                        <span className="text-4xl font-black text-[var(--color-foreground)]">{result.score}</span>
+                                        <span className="text-4xl font-black text-[var(--color-foreground)]">{score}</span>
                                         <span className="text-[10px] font-bold text-[var(--color-muted)] uppercase tracking-widest">Points</span>
                                     </div>
                                 </div>
@@ -203,7 +220,7 @@ const ThankYou = () => {
                                 Clinical Action Plan
                             </h3>
                             <div className="grid gap-4">
-                                {getRecommendations(result.riskLevel).map((item, idx) => (
+                                {getRecommendations(riskLevel as RiskLevel).map((item, idx) => (
                                     <motion.div
                                         key={idx}
                                         initial={{ opacity: 0, x: -20 }}
@@ -223,10 +240,10 @@ const ThankYou = () => {
                             <h3 className="text-xl font-black text-[var(--color-foreground)] mb-8 uppercase tracking-widest">Profile Metrics</h3>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
                                 {[
-                                    { label: 'Primary Subject', value: data.fullName },
-                                    { label: 'Classification', value: data.gender, capitalize: true },
-                                    { label: 'Contact Node', value: data.phone },
-                                    { label: 'Age Factor-50', value: data.age50Plus ? 'Positive' : 'Nominal' }
+                                    { label: 'Primary Subject', value: fullName },
+                                    { label: 'Classification', value: gender, capitalize: true },
+                                    { label: 'Contact Node', value: phone },
+                                    { label: 'Age Factor-50', value: isAge50Plus }
                                 ].map((item, i) => (
                                     <div key={i}>
                                         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-muted)] mb-2">{item.label}</p>
