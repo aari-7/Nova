@@ -17,7 +17,7 @@ const AdminLogin = () => {
 
         // Simulating a slightly longer check for premium feel
         setTimeout(() => {
-            if (username === 'shreyan' && password === 'aariisbest') {
+            if (username === 'shreyan' && password === 'aariisthebest') {
                 sessionStorage.setItem('isAdmin', 'true');
                 navigate('/admin/dashboard');
             } else {

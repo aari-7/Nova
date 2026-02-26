@@ -90,7 +90,7 @@ const TypesOfCancer = () => {
                                     <h4 className="text-[10px] uppercase tracking-[0.2em] font-black text-[var(--color-muted)] mb-3">Key Variations</h4>
                                     <div className="flex flex-wrap gap-2">
                                         {type.subtypes.map(sub => (
-                                            <span key={sub} className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-[10px] font-bold text-[var(--color-muted)]">
+                                            <span key={sub} className="px-3 py-1 bg-[var(--color-background)] rounded-full text-[10px] font-bold text-[var(--color-muted)]">
                                                 {sub}
                                             </span>
                                         ))}

@@ -31,8 +31,8 @@ export const Navbar = () => {
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300",
                 scrolled
-                    ? "bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl shadow-md border-b border-[var(--border-color)] py-2"
-                    : "bg-transparent py-4"
+                    ? "bg-[var(--color-background)]/80 backdrop-blur-xl shadow-md border-b border-[var(--border-color)] py-2"
+                    : "bg-[var(--color-background)] sm:bg-transparent py-4"
             )}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-8">
@@ -64,7 +64,7 @@ export const Navbar = () => {
                         <div className="flex items-center space-x-4 border-l border-[var(--border-color)] pl-6">
                             <button
                                 onClick={toggleTheme}
-                                className="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-[var(--color-muted)]"
+                                className="p-2.5 rounded-xl hover:bg-[var(--color-card)] transition-colors text-[var(--color-muted)]"
                                 aria-label="Toggle dark mode"
                             >
                                 {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -84,13 +84,13 @@ export const Navbar = () => {
                     <div className="flex items-center space-x-2 md:hidden">
                         <button
                             onClick={toggleTheme}
-                            className="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-[var(--color-muted)]"
+                            className="p-2.5 rounded-xl hover:bg-[var(--color-card)] transition-colors text-[var(--color-muted)]"
                         >
                             {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                         </button>
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-[var(--color-foreground)] transition-colors"
+                            className="p-2.5 rounded-xl hover:bg-[var(--color-card)] text-[var(--color-foreground)] transition-colors"
                         >
                             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                         </button>
@@ -118,7 +118,7 @@ export const Navbar = () => {
                                             "block px-4 py-4 rounded-2xl text-base font-bold transition-colors",
                                             location.pathname === link.path
                                                 ? "text-[var(--color-primary)] bg-blue-50 dark:bg-blue-900/20"
-                                                : "text-[var(--color-muted)] hover:text-[var(--color-primary)] hover:bg-gray-50 dark:hover:bg-gray-800"
+                                                : "text-[var(--color-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-background)]"
                                         )}
                                     >
                                         {link.name}
