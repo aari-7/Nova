@@ -39,6 +39,28 @@ const ThankYou = () => {
     const pdfRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const submissionId = queryParams.get('id');
+
+        if (submissionId) {
+            const allSubmissions = JSON.parse(localStorage.getItem('nova_submissions') || '[]');
+            const person = allSubmissions.find((s: any) => s.id === submissionId);
+            if (person) {
+                const payload = {
+                    data: {
+                        ...(person.rawAnswers || {}),
+                        fullName: person.name,
+                        phone: person.phone,
+                        gender: person.gender
+                    },
+                    result: { score: person.score, riskLevel: person.risk },
+                    date: person.date
+                };
+                setResultProps(payload);
+                return;
+            }
+        }
+
         const stored = sessionStorage.getItem('assessmentResult');
         if (!stored) {
             navigate('/');
