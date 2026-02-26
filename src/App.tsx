@@ -28,8 +28,6 @@ function App() {
           <Route path="stages" element={<StagesOfCancer />} />
           <Route path="assessment" element={<RiskAssessment />} />
           <Route path="thank-you" element={<ThankYou />} />
-          <Route path="admin" element={<AdminLogin />} />
-          <Route path="admin/dashboard" element={<AdminDashboard />} />
           <Route path="*" element={
             <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
               <h1 className="text-4xl font-bold">404</h1>
@@ -37,6 +35,8 @@ function App() {
             </div>
           } />
         </Route>
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
     </React.Suspense>
   );

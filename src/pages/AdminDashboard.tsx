@@ -66,6 +66,21 @@ const AdminDashboard = () => {
 
     const stats = getRiskStats();
 
+    const handleReportClick = (person: PatientSubmission) => {
+        const payload = {
+            data: {
+                ...(person.rawAnswers || {}),
+                fullName: person.name,
+                phone: person.phone,
+                gender: person.gender
+            },
+            result: { score: person.score, riskLevel: person.risk },
+            date: person.date
+        };
+        sessionStorage.setItem('assessmentResult', JSON.stringify(payload));
+        window.open('/thank-you', '_blank', 'noopener,noreferrer');
+    };
+
     return (
         <div className="min-h-screen bg-[var(--color-background)] font-inter">
             {/* Top Navigation */}
@@ -243,7 +258,10 @@ const AdminDashboard = () => {
                                                 </span>
                                             </td>
                                             <td className="px-8 py-5 text-right">
-                                                <button className="p-2 text-[var(--color-primary)] hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all inline-flex items-center space-x-2 font-bold text-xs uppercase tracking-wider">
+                                                <button
+                                                    onClick={() => handleReportClick(person)}
+                                                    className="p-2 text-[var(--color-primary)] hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all inline-flex items-center space-x-2 font-bold text-xs uppercase tracking-wider"
+                                                >
                                                     <ExternalLink className="w-4 h-4" />
                                                     <span className="hidden lg:inline">Report</span>
                                                 </button>
